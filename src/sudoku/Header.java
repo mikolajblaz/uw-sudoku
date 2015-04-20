@@ -1,8 +1,6 @@
 package sudoku;
 
-/**
- * Created by mikib on 20.04.15.
- */
+/** Represents a header of each column in matrix. */
 public class Header extends Cell {
     protected Header left;
     protected Header right;
@@ -26,7 +24,7 @@ public class Header extends Cell {
         count += 1;
     }
 
-
+    /** Removes whole column along with rows having one in that column. */
     public void remove() {
         hide();
         for (Cell row = down; row != this; row = row.down) {
@@ -36,6 +34,7 @@ public class Header extends Cell {
         }
     }
 
+    /** Restores whole column along with rows having one in that column. */
     public void restore() {
         for (Cell row = up; row != this; row = row.up) {
             for (Cell col = row.left; col != row; col = col.left) {
@@ -45,12 +44,13 @@ public class Header extends Cell {
         show();
     }
 
-
+    /** Removes column from the list of columns. */
     public void hide() {
         left.right = right;
         right.left = left;
     }
 
+    /** Adds column back to the list of columns. */
     public void show() {
         left.right = this;
         right.left = this;

@@ -1,21 +1,20 @@
 package sudoku;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Stack;
 
-/**
- * Created by mikib on 20.04.15.
- */
+/** Class storing solution to an exact cover problem. Contains a stack
+  * with rows selected to form a solution to a problem. */
 public class Solution {
-    private List<Cell> rows = new LinkedList<>();
+    private Stack<Cell> rows = new Stack<>();
 
     public void save() {
     }
 
     public void include(Cell row) {
+        rows.push(row);
     }
 
     public Cell remove() {
-        return null;
+        return rows.pop();
     }
 }

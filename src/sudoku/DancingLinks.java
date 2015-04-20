@@ -1,21 +1,23 @@
 package sudoku;
 
-/**
- * Created by mikib on 20.04.15.
- */
+/** This class implements Donald Knuth's Dancing Links algorithm. */
 public class DancingLinks {
-    private Solution solution;
+    private Solution solution = new Solution();
+    @SuppressWarnings("FieldCanBeLocal")
     private Header column;
+    @SuppressWarnings("FieldCanBeLocal")
     private Cell row;
+    @SuppressWarnings("FieldCanBeLocal")
     private Cell col;
+
+    private Header superHead;
 
     public void step() {
         column = choose_min_column();
         if (column == null) {              // success
             solution.save();
-        } else if (column.count() == 0) {  // solution doesn't exist
-            // KONIEC
-        } else {                        // continue recursion
+        } else if (column.count() > 0) {  // else solution doesn't exist
+
             column.remove();
 
             for (row = column.down; row != column; row = row.down) {
@@ -38,7 +40,20 @@ public class DancingLinks {
 
     }
 
+    /** Chooses a column with smallest number of ones. (Knuth's heuristic) */
     private Header choose_min_column() {
-        return null;
+        if (superHead == superHead.right) {     // empty matrix
+            return null;
+        } else {                                // choose min column
+            int min = superHead.right.count;
+            Header minH = superHead.right;
+            for (Header h = superHead.right; h != superHead; h = h.right) {
+                if (h.count < min) {
+                    min = h.count;
+                    minH = h;
+                }
+            }
+            return minH;
+        }
     }
 }
