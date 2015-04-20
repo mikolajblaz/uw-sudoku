@@ -27,38 +27,22 @@ public class Header extends Cell {
     }
 
 
-    public void remove_col_row() {
+    public void remove() {
         hide();
         for (Cell row = down; row != this; row = row.down) {
             for (Cell col = row.right; col != row; col = col.right) {
-                col.hide_from_col();
+                col.hide();
             }
         }
     }
 
-    public void restore_col_row() {
+    public void restore() {
         for (Cell row = up; row != this; row = row.up) {
             for (Cell col = row.left; col != row; col = col.left) {
-                col.show_to_col();
+                col.show();
             }
         }
         show();
-    }
-
-
-
-    public void remove_row() {
-
-    }
-
-    public void restore_row() {
-        Cell firstCell = this;               ////// this.left()????????????? TODO
-        Cell cell = firstCell;
-        do {
-            cell.show();
-
-            cell = cell.left;
-        } while (cell != firstCell);
     }
 
 

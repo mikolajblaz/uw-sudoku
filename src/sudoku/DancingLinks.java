@@ -9,31 +9,31 @@ public class DancingLinks {
     private Cell row;
     private Cell col;
 
-    public void step(int level) {
+    public void step() {
         column = choose_min_column();
         if (column == null) {              // success
             solution.save();
         } else if (column.count() == 0) {  // solution doesn't exist
             // KONIEC
         } else {                        // continue recursion
-            column.remove_col_row();
+            column.remove();
 
             for (row = column.down; row != column; row = row.down) {
                 solution.include(row);
                 for (col = row.right; col != row; col = col.right) {
-                    col.head.remove_col_row();
+                    col.head.remove();
                 }
 
-                step(level + 1);
+                step();
 
                 row = solution.remove();
                 column = row.head;
                 for (col = row.left; col != row; col = col.left) {
-                    col.head.restore_col_row();
+                    col.head.restore();
                 }
             }
 
-            column.restore_col_row();
+            column.restore();
         }
 
     }
