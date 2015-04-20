@@ -4,11 +4,11 @@ package sudoku;
  * Created by mikib on 20.04.15.
  */
 public class Cell {
-    private Cell left;
-    private Cell right;
-    private  Cell up;
-    private Cell down;
-    private Header head;
+    protected Cell left;
+    protected Cell right;
+    protected Cell up;
+    protected Cell down;
+    protected Header head;
 
     public Cell(Cell left, Cell right, Cell up, Cell down, Header head) {
         this.left = left;
@@ -54,26 +54,6 @@ public class Cell {
         } while (col != firstCol);
     }
 
-    public void remove_row() {
-        Cell firstCell = this;
-        Cell cell = firstCell;
-        do {
-            cell.hide();
-
-            cell = cell.right;
-        } while (cell != firstCell);
-    }
-
-    public void restore_row() {
-        Cell firstCell = this;               ////// this.left()????????????? TODO
-        Cell cell = firstCell;
-        do {
-            cell.show();
-
-            cell = cell.left;
-        } while (cell != firstCell);
-    }
-
 
     public void hide_from_row() {
         left.right = right;
@@ -83,9 +63,6 @@ public class Cell {
         up.down = down;
         down.up = up;
         head.hideOne();
-        if (head.first() == this) {
-            //////////////////////////// TODO
-        }
     }
     public void hide() {
         hide_from_row();
@@ -93,11 +70,17 @@ public class Cell {
     }
 
 
-    public void show() {
+    public void show_to_row() {
         left.right = this;
         right.left = this;
+    }
+    public void show_to_col() {
+        head.showOne();
         up.down = this;
         down.up = this;
-        head.showOne();
+    }
+    public void show() {
+        show_to_row();
+        show_to_col();
     }
 }
