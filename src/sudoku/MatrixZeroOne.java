@@ -9,6 +9,15 @@ public class MatrixZeroOne {
     private Cell[][] sparseData;
     private Header[] headers;
 
+    public MatrixZeroOne(int[][] array) {
+        height = array.length;
+        width = array[0].length;
+        boolean[][] data = new boolean[height][width];
+        for (int i = 0; i < height; ++i)
+            for (int j = 0; j < width; ++j)
+                data[i][j] = (array[i][j] != 0);
+    }
+
     public MatrixZeroOne(boolean[][] array) {
         data = array;
         height = array.length;
@@ -44,9 +53,11 @@ public class MatrixZeroOne {
         for (int col = 0; col < width; ++col) {
             headers[col].right = headers[col + 1];
             headers[col + 1].left = headers[col];
+            print(-1, col, -1, col + 1);
         }
         headers[width].right = headers[0];
         headers[0].left = headers[width];
+        print(-1, 0, -1, width);
     }
 
     /** Sets 'left' and 'right' attribute of each cell in a row 'row'. */
@@ -62,6 +73,7 @@ public class MatrixZeroOne {
                 r = next_horizontal(row, r);
                 sparseData[row][l].right = sparseData[row][r];
                 sparseData[row][r].left = sparseData[row][l];
+                print(row, l, row, r);
             } while (r != first);
         }
     }
@@ -110,16 +122,22 @@ public class MatrixZeroOne {
                 sparseData[col][d].up = sparseData[col][u];
                 /* extra assignment w.r.t. link_horizontally: */
                 sparseData[col][u].head = colHead;
+                print(u, col, d, col);
+                print(u, col);
 
                 u = d;
                 d = next_vertical(col, d);
             }
-            // now 'd == first' and 'u' is the last non-empty cell in 'col'
+            // now 'd == first' and 'u' is the last non-empty cell in column 'col'
             sparseData[col][u].head = colHead;
             sparseData[col][u].down = colHead;
             sparseData[col][first].up = colHead;
             colHead.down = sparseData[col][first];
             colHead.up = sparseData[col][u];
+
+            print(u, col, -1, col);
+            print(first, col, -1, col);
+            print(u, col);
         }
     }
 
@@ -140,6 +158,17 @@ public class MatrixZeroOne {
             row = (row + 1) % height;
         } while (!data[row][col]);
         return row;
+    }
+
+
+    private void print(int i1, int j1) {
+        System.out.println("(" + String.valueOf(i1) + "," + String.valueOf(j1) +
+                ") -> head");
+    }
+
+    private void print(int i1, int j1, int i2, int j2) {
+        System.out.println("(" + String.valueOf(i1) + "," + String.valueOf(j1) +
+                ") <-> (" + String.valueOf(i2) + "," + String.valueOf(j2) + ")");
     }
 
 }
