@@ -1,5 +1,7 @@
 package sudoku;
 
+import java.util.Arrays;
+
 /** Class generating sparse matrix representation given a matrix of 0's and 1's */
 public class MatrixZeroOne {
     private boolean[][] data;
@@ -9,18 +11,20 @@ public class MatrixZeroOne {
     private Cell[][] sparseData;
     private Header[] headers;
 
-    public MatrixZeroOne(int[][] array) {
+    public MatrixZeroOne(int[][] array) throws NullPointerException {
         height = array.length;
+        if (height == 0) throw new NullPointerException();
         width = array[0].length;
-        boolean[][] data = new boolean[height][width];
+        data = new boolean[height][width];
         for (int i = 0; i < height; ++i)
             for (int j = 0; j < width; ++j)
                 data[i][j] = (array[i][j] != 0);
     }
 
-    public MatrixZeroOne(boolean[][] array) {
+    public MatrixZeroOne(boolean[][] array) throws NullPointerException {
         data = array;
         height = array.length;
+        if (height == 0) throw new NullPointerException();
         width = array[0].length;
     }
 
@@ -30,11 +34,17 @@ public class MatrixZeroOne {
         if (height == 0 || width == 0) {
             return null;
         } else {
+            /* Create all objects: */
             sparseData = new Cell[height][width];
+            for (int row = 0; row < height; ++row)
+                for (int col = 0; col < width; ++col)
+                    sparseData[row][col] = new Cell();
             headers = new Header[width + 1];
-            Header superHead = headers[width + 1];
+            for (int col = 0; col < width + 1; ++col)
+                headers[col] = new Header();
+            Header superHead = headers[width];
 
-            /* Linking everything: */
+            /* Link everything: */
             link_headers();
             for (int row = 0; row < height; ++row) {
                 link_horizontally(row);
@@ -50,6 +60,7 @@ public class MatrixZeroOne {
 
     /** Sets 'left' and 'right' attribute of each header. */
     private void link_headers() {
+        print("@link_headers:");
         for (int col = 0; col < width; ++col) {
             headers[col].right = headers[col + 1];
             headers[col + 1].left = headers[col];
@@ -62,6 +73,7 @@ public class MatrixZeroOne {
 
     /** Sets 'left' and 'right' attribute of each cell in a row 'row'. */
     private void link_horizontally(int row) {
+        print("@link_horizontally(" + String.valueOf(row) + "):");
         int l, r;       // two neighbouring cells of 1 moving right
         int first = first_horizontal(row);
 
@@ -80,6 +92,7 @@ public class MatrixZeroOne {
 
     /** Returns index of first non-empty column in row 'row' or -1 if it's empty. */
     private int first_horizontal(int row) {
+        print("@@first_horizontal(" + String.valueOf(row) + "):");
         int j = 0;
         while (j < width && !data[row][j]) {
             ++j;
@@ -91,6 +104,7 @@ public class MatrixZeroOne {
      * starting from column 'col' + 1. We assume that row 'row' is not empty.
      */
     private int next_horizontal(int row, int col) {
+        print("@@next_horizontal(" + String.valueOf(row) + ", " + String.valueOf(col) + "):");
         do {
             col = (col + 1) % width;
         } while (!data[row][col]);
@@ -104,6 +118,7 @@ public class MatrixZeroOne {
      * and a header of this column.
      */
     private void link_vertically(int col) {
+        print("@link_vertically(" + String.valueOf(col) + "):");
         int u, d;       // two neighbouring cells of 1 moving down
         int first = first_vertical(col);
 
@@ -113,27 +128,29 @@ public class MatrixZeroOne {
         if (first == -1) {    // empty column
             colHead.down = colHead;
             colHead.up = colHead;
+            print(-1, col, -1, col);
+
         } else {        // non-empty column
             u = first;
-            d = next_vertical(col, u);
+            d = next_vertical(u, col);
 
             while (d != first) {
-                sparseData[col][u].down = sparseData[col][d];
-                sparseData[col][d].up = sparseData[col][u];
+                sparseData[u][col].down = sparseData[d][col];
+                sparseData[d][col].up = sparseData[u][col];
                 /* extra assignment w.r.t. link_horizontally: */
-                sparseData[col][u].head = colHead;
+                sparseData[u][col].head = colHead;
                 print(u, col, d, col);
                 print(u, col);
 
                 u = d;
-                d = next_vertical(col, d);
+                d = next_vertical(d, col);
             }
             // now 'd == first' and 'u' is the last non-empty cell in column 'col'
-            sparseData[col][u].head = colHead;
-            sparseData[col][u].down = colHead;
-            sparseData[col][first].up = colHead;
-            colHead.down = sparseData[col][first];
-            colHead.up = sparseData[col][u];
+            sparseData[u][col].head = colHead;
+            sparseData[u][col].down = colHead;
+            sparseData[first][col].up = colHead;
+            colHead.down = sparseData[first][col];
+            colHead.up = sparseData[u][col];
 
             print(u, col, -1, col);
             print(first, col, -1, col);
@@ -143,6 +160,7 @@ public class MatrixZeroOne {
 
     /** Returns index of first non-empty row in column 'col' or -1 if it's empty. */
     private int first_vertical(int col) {
+        print("@@first_vertical(" + String.valueOf(col) + "):");
         int i = 0;
         while (i < height && !data[i][col]) {
             ++i;
@@ -154,12 +172,16 @@ public class MatrixZeroOne {
      * starting from row 'row' + 1. We assume that column 'col' is not empty.
      */
     private int next_vertical(int row, int col) {
+        print("@@next_vertical(" + String.valueOf(row) + ", " + String.valueOf(col) + "):");
         do {
             row = (row + 1) % height;
         } while (!data[row][col]);
         return row;
     }
 
+    private void print(String s) {
+        System.out.println(s);
+    }
 
     private void print(int i1, int j1) {
         System.out.println("(" + String.valueOf(i1) + "," + String.valueOf(j1) +
