@@ -12,6 +12,8 @@ public class Cell {
     protected Cell down;
     protected Header head;
 
+    public Cell() {}
+
     public Cell(Cell left, Cell right, Cell up, Cell down, Header head) {
         this.left = left;
         this.right = right;

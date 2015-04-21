@@ -6,23 +6,16 @@ public class Header extends Cell {
     protected Header right;
     protected int count = 0;
 
+    public Header() {}
     public Header(Header left, Header right, Cell up, Cell down, Header head) {
         super(left, right, up, down, head);
         this.left = left;
         this.right = right;
     }
 
-    public int count() {
-        return count;
-    }
-
-    public void hideOne() {
-        count -= 1;
-    }
-
-    public void showOne() {
-        count += 1;
-    }
+    public int count()    { return count; }
+    public void hideOne() { count -= 1; }
+    public void showOne() { count += 1; }
 
     /** Removes whole column along with rows having one in that column. */
     public void remove() {

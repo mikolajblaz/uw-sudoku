@@ -12,6 +12,12 @@ public class DancingLinks {
 
     private Header superHead;
 
+    /** DancingLinks needs only a link to 'superHead' of sparse matrix. */
+    public DancingLinks(Header superHead) {
+        this.superHead = superHead;
+    }
+
+    /** Recursively add one row to solution at each step. */
     public void step() {
         column = choose_min_column();
         if (column == null) {              // success
