@@ -6,11 +6,8 @@ public class Header extends Cell {
     protected Header right;
     protected int count = 0;
 
-    public Header() {}
-    public Header(Header left, Header right, Cell up, Cell down, Header head) {
-        super(left, right, up, down, head);
-        this.left = left;
-        this.right = right;
+    public Header(int rowNum, Header head) {
+        super(rowNum, head);
     }
 
     public int count()    { return count; }

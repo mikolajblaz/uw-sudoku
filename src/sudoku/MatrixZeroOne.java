@@ -1,7 +1,5 @@
 package sudoku;
 
-import java.util.Arrays;
-
 /** Class generating sparse matrix representation given a matrix of 0's and 1's */
 public class MatrixZeroOne {
     private boolean[][] data;
@@ -35,13 +33,15 @@ public class MatrixZeroOne {
             return null;
         } else {
             /* Create all objects: */
+            headers = new Header[width + 1];
+            for (int col = 0; col < width + 1; ++col)
+                headers[col] = new Header(-1, headers[col]);
+
             sparseData = new Cell[height][width];
             for (int row = 0; row < height; ++row)
                 for (int col = 0; col < width; ++col)
-                    sparseData[row][col] = new Cell();
-            headers = new Header[width + 1];
-            for (int col = 0; col < width + 1; ++col)
-                headers[col] = new Header();
+                    sparseData[row][col] = new Cell(row, headers[col]);
+
             Header superHead = headers[width];
 
             /* Link everything: */
@@ -137,8 +137,7 @@ public class MatrixZeroOne {
             while (d != first) {
                 sparseData[u][col].down = sparseData[d][col];
                 sparseData[d][col].up = sparseData[u][col];
-                /* extra assignment w.r.t. link_horizontally: */
-                sparseData[u][col].head = colHead;
+
                 print(u, col, d, col);
                 print(u, col);
 
@@ -146,7 +145,6 @@ public class MatrixZeroOne {
                 d = next_vertical(d, col);
             }
             // now 'd == first' and 'u' is the last non-empty cell in column 'col'
-            sparseData[u][col].head = colHead;
             sparseData[u][col].down = colHead;
             sparseData[first][col].up = colHead;
             colHead.down = sparseData[first][col];

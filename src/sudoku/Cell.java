@@ -11,14 +11,10 @@ public class Cell {
     protected Cell up;
     protected Cell down;
     protected Header head;
+    protected int rowNum;
 
-    public Cell() {}
-
-    public Cell(Cell left, Cell right, Cell up, Cell down, Header head) {
-        this.left = left;
-        this.right = right;
-        this.up = up;
-        this.down = down;
+    public Cell(int rowNum, Header head) {
+        this.rowNum = rowNum;
         this.head = head;
     }
 

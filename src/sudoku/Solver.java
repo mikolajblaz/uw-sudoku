@@ -12,7 +12,14 @@ public class Solver {
                 {0, 0, 1, 0, 0}
         };
 
-        int[][] data2 = null;
+        int[][] data2 = {
+                {0, 0, 1, 1, 0},
+                {0, 0, 1, 1, 0},
+                {1, 0, 0, 1, 0},
+                {0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0},
+                {0, 0, 1, 0, 0}
+        };
 
         MatrixZeroOne matrix = new MatrixZeroOne(data);
         Header sparse = matrix.toSparse();

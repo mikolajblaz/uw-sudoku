@@ -1,8 +1,12 @@
 package sudoku;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /** This class implements Donald Knuth's Dancing Links algorithm. */
 public class DancingLinks {
-    private Solution solution = new Solution();
+    private RowStack tempSolution = new RowStack();
+    private List<Solution> solutions = new LinkedList<>();
     @SuppressWarnings("FieldCanBeLocal")
     private Header column;
     @SuppressWarnings("FieldCanBeLocal")
@@ -21,20 +25,20 @@ public class DancingLinks {
     public void step() {
         column = choose_min_column();
         if (column == null) {              // success
-            solution.save();
+            solutions.add(tempSolution.toSolution());
         } else if (column.count() > 0) {  // else solution doesn't exist
 
             column.remove();
 
             for (row = column.down; row != column; row = row.down) {
-                solution.include(row);
+                tempSolution.push(row);
                 for (col = row.right; col != row; col = col.right) {
                     col.head.remove();
                 }
 
                 step();
 
-                row = solution.remove();
+                row = tempSolution.pop();
                 column = row.head;
                 for (col = row.left; col != row; col = col.left) {
                     col.head.restore();

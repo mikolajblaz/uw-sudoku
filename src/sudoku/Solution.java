@@ -1,20 +1,16 @@
 package sudoku;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Stack;
 
-/** Class storing solution to an exact cover problem. Contains a stack
-  * with rows selected to form a solution to a problem. */
+/** One solution to an exact cover problem as a list of rows in matrix. */
 public class Solution {
-    private Stack<Cell> rows = new Stack<>();
+    public List<Integer> rows = new LinkedList<>();
 
-    public void save() {
-    }
-
-    public void include(Cell row) {
-        rows.push(row);
-    }
-
-    public Cell remove() {
-        return rows.pop();
+    public Solution(Stack<Cell> rowStack) {
+        for (Cell c : rowStack) {
+            rows.add(c.rowNum);
+        }
     }
 }
