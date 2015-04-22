@@ -13,4 +13,8 @@ public class Solution {
             rows.add(c.rowNum);
         }
     }
+
+    public String toString() {
+        return rows.toString();
+    }
 }

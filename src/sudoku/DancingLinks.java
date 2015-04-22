@@ -7,6 +7,7 @@ import java.util.List;
 public class DancingLinks {
     private RowStack tempSolution = new RowStack();
     private List<Solution> solutions = new LinkedList<>();
+    /* Those are attributes due to efficiency */
     @SuppressWarnings("FieldCanBeLocal")
     private Header column;
     @SuppressWarnings("FieldCanBeLocal")
@@ -19,6 +20,10 @@ public class DancingLinks {
     /** DancingLinks needs only a link to 'superHead' of sparse matrix. */
     public DancingLinks(Header superHead) {
         this.superHead = superHead;
+    }
+
+    public List<Solution> getSolutions() {
+        return solutions;
     }
 
     /** Recursively add one row to solution at each step. */
