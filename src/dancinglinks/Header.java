@@ -1,7 +1,7 @@
-package sudoku;
+package dancinglinks;
 
 /** Represents a header of each column in matrix. */
-public class Header extends Cell {
+class Header extends Cell {
     Header left;            // package visibility, NOT inherited
     Header right;           // package visibility, NOT inherited
     protected int count = 0;

@@ -1,10 +1,10 @@
-package sudoku;
+package dancinglinks;
 
 import java.util.Stack;
 
 /** Class storing temporary solution to
  * an exact cover problem as a stack of rows. */
-public class RowStack {
+class RowStack {
     Stack<Cell> stack = new Stack<>();
 
     public RowStack() {}

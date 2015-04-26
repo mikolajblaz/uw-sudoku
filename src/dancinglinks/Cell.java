@@ -1,11 +1,11 @@
-package sudoku;
+package dancinglinks;
 
 /**
  * Represents a cell contaning 1 in a sparse matrix representation.
  * Each cell has links to 4 neighbouring cells containing ones.
  * Cells are arranged in doubly-linked lists.
  */
-public class Cell {
+class Cell {
     Cell left;            // package visibility, NOT inherited
     Cell right;           // package visibility, NOT inherited
     protected Cell up;

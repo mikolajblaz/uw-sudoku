@@ -1,13 +1,11 @@
-package sudoku;
+package dancinglinks;
 
 import java.util.LinkedList;
 import java.util.List;
 
 /** This class implements Donald Knuth's Dancing Links algorithm. */
 public class DancingLinks {
-    private RowStack tempSolution = new RowStack();
-    private List<Solution> solutions = new LinkedList<>();
-    /* Those are attributes due to efficiency */
+    /* Those are attributes due to efficiency: */
     @SuppressWarnings("FieldCanBeLocal")
     private Header column;
     @SuppressWarnings("FieldCanBeLocal")
@@ -15,11 +13,32 @@ public class DancingLinks {
     @SuppressWarnings("FieldCanBeLocal")
     private Cell col;
 
-    private Header superHead;
+    private Header superHead;               // head of the linked matrix
+    private MatrixZeroOne matrixZeroOne;    // matrix of zeros and ones
+    /** Stack of rows temporarily included to solution: */
+    private RowStack tempSolution = new RowStack();
+    /** All solutions of the exact cover problem: */
+    private List<Solution> solutions = new LinkedList<>();
 
-    /** DancingLinks needs only a link to 'superHead' of sparse matrix. */
-    public DancingLinks(Header superHead) {
-        this.superHead = superHead;
+    /** Feeds DancingLinks with an array of zeros and ones */
+    public DancingLinks(boolean[][] array) {
+        matrixZeroOne = new MatrixZeroOne(array);
+    }
+    /** Feeds DancingLinks with an array of integers (converted to 0 and 1) */
+    public DancingLinks(int[][] array) {
+        matrixZeroOne = new MatrixZeroOne(array);
+    }
+
+    /**
+     * Finds an exact cover for the given matrix. Firstly converts the
+     * 'matrixZeroOne' to quaterly-linked list representation and then performs
+     * "Dancing Links" algorithm by recursively calling 'step()'.
+     * Returns list of solutions to the exact cover problem.
+     */
+    public List<Solution> exactCover() {
+        superHead = matrixZeroOne.toSparse();
+        step();
+        return solutions;
     }
 
     public List<Solution> getSolutions() {
@@ -29,9 +48,9 @@ public class DancingLinks {
     /** Recursively add one row to solution at each step. */
     public void step() {
         column = choose_min_column();
-        if (column == null) {              // success
+        if (column == null) {               // success
             solutions.add(tempSolution.toSolution());
-        } else if (column.count > 0) {  // else solution doesn't exist
+        } else if (column.count > 0) {      // else solution doesn't exist
 
             column.remove();
 

@@ -1,7 +1,7 @@
-package sudoku;
+package dancinglinks;
 
 /** Class generating sparse matrix representation given a matrix of 0's and 1's */
-public class MatrixZeroOne {
+class MatrixZeroOne {
     private boolean[][] data;
     private int width;
     private int height;
@@ -9,6 +9,15 @@ public class MatrixZeroOne {
     private Cell[][] sparseData;
     private Header[] headers;
 
+    /** Feeds MatrixZeroOne with an array of zeros and ones */
+    public MatrixZeroOne(boolean[][] array) throws NullPointerException {
+        data = array;
+        height = array.length;
+        if (height == 0) throw new NullPointerException();
+        width = array[0].length;
+    }
+
+    /** Feeds MatrixZeroOne with an array of integers (converted to 0 and 1) */
     public MatrixZeroOne(int[][] array) throws NullPointerException {
         height = array.length;
         if (height == 0) throw new NullPointerException();
@@ -17,13 +26,6 @@ public class MatrixZeroOne {
         for (int i = 0; i < height; ++i)
             for (int j = 0; j < width; ++j)
                 data[i][j] = (array[i][j] != 0);
-    }
-
-    public MatrixZeroOne(boolean[][] array) throws NullPointerException {
-        data = array;
-        height = array.length;
-        if (height == 0) throw new NullPointerException();
-        width = array[0].length;
     }
 
     /** Generate sparse matrix representation of a matrix.
@@ -179,17 +181,17 @@ public class MatrixZeroOne {
     }
 
     private void print(String s) {
-        System.out.println(s);
+        //System.out.println(s);
     }
 
     private void print(int i1, int j1) {
-        System.out.println("(" + String.valueOf(i1) + "," + String.valueOf(j1) +
-                ") -> head");
+        //System.out.println("(" + String.valueOf(i1) + "," + String.valueOf(j1) +
+         //       ") -> head");
     }
 
     private void print(int i1, int j1, int i2, int j2) {
-        System.out.println("(" + String.valueOf(i1) + "," + String.valueOf(j1) +
-                ") <-> (" + String.valueOf(i2) + "," + String.valueOf(j2) + ")");
+       // System.out.println("(" + String.valueOf(i1) + "," + String.valueOf(j1) +
+        //        ") <-> (" + String.valueOf(i2) + "," + String.valueOf(j2) + ")");
     }
 
 }
