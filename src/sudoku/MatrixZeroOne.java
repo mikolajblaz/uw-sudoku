@@ -35,12 +35,13 @@ public class MatrixZeroOne {
             /* Create all objects: */
             headers = new Header[width + 1];
             for (int col = 0; col < width + 1; ++col)
-                headers[col] = new Header(-1, headers[col]);
+                headers[col] = new Header(col);
 
             sparseData = new Cell[height][width];
             for (int row = 0; row < height; ++row)
                 for (int col = 0; col < width; ++col)
-                    sparseData[row][col] = new Cell(row, headers[col]);
+                    if (data[row][col])
+                        sparseData[row][col] = new Cell(row, headers[col]);
 
             Header superHead = headers[width];
 

@@ -6,29 +6,36 @@ package sudoku;
  * Cells are arranged in doubly-linked lists.
  */
 public class Cell {
-    protected Cell left;
-    protected Cell right;
+    Cell left;            // package visibility, NOT inherited
+    Cell right;           // package visibility, NOT inherited
     protected Cell up;
     protected Cell down;
     protected Header head;
     protected int rowNum;
 
+    public Cell() {}
     public Cell(int rowNum, Header head) {
         this.rowNum = rowNum;
         this.head = head;
+        head.count += 1;
     }
 
     /** Detaches cell from a column list. */
     public void hide() {
         up.down = down;
         down.up = up;
-        head.hideOne();
+        head.hideOneCell();
     }
 
     /** Attaches cell back to a column list. */
     public void show() {
-        head.showOne();
+        head.showOneCell();
         up.down = this;
         down.up = this;
+    }
+
+    @Override
+    public String toString() {
+        return "(" + String.valueOf(rowNum) + "," + String.valueOf(head.colNum) + ")";
     }
 }

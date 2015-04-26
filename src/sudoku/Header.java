@@ -2,17 +2,19 @@ package sudoku;
 
 /** Represents a header of each column in matrix. */
 public class Header extends Cell {
-    protected Header left;
-    protected Header right;
+    Header left;            // package visibility, NOT inherited
+    Header right;           // package visibility, NOT inherited
     protected int count = 0;
+    protected int colNum;
 
-    public Header(int rowNum, Header head) {
-        super(rowNum, head);
+    public Header(int colNum) {
+        this.rowNum = -1;
+        this.head = this;
+        this.colNum = colNum;
     }
 
-    public int count()    { return count; }
-    public void hideOne() { count -= 1; }
-    public void showOne() { count += 1; }
+    public void hideOneCell() { count -= 1; }
+    public void showOneCell() { count += 1; }
 
     /** Removes whole column along with rows having one in that column. */
     public void remove() {
@@ -35,12 +37,14 @@ public class Header extends Cell {
     }
 
     /** Removes column from the list of columns. */
+    @Override
     public void hide() {
         left.right = right;
         right.left = left;
     }
 
     /** Adds column back to the list of columns. */
+    @Override
     public void show() {
         left.right = this;
         right.left = this;

@@ -31,7 +31,7 @@ public class DancingLinks {
         column = choose_min_column();
         if (column == null) {              // success
             solutions.add(tempSolution.toSolution());
-        } else if (column.count() > 0) {  // else solution doesn't exist
+        } else if (column.count > 0) {  // else solution doesn't exist
 
             column.remove();
 
