@@ -36,6 +36,7 @@ class ExactCoverMatrixGenerator {
         return DLXRows;
     }
 
+    /** fills DLXRows array (labels for the matrix) */
     private void fillDLXRows() {
         int i = 0;
         for (int row = 0; row < sudokuSize; ++row)
@@ -49,7 +50,7 @@ class ExactCoverMatrixGenerator {
 
     /** generates an exact cover matrix */
     private void generateMatrix() throws InvalidBoardException {
-        RowIterator rowIt = new RowIterator();
+        RowIterator rowIt = new RowIterator(sudokuSize);
         int nextCol = 0;
         for (int i = 0; i < width; ++i) {
             nextCol = generateColumn(nextCol, rowIt);
@@ -83,11 +84,11 @@ class ExactCoverMatrixGenerator {
             row = rowIt.next();
             if (DLXRows[row].selected) {
                 if (alreadyHit)
-                    throw new InvalidBoardException();
+                    throw new InvalidBoardException("Conflicting numbers");
                 alreadyHit = true;
             } else if (DLXRows[row].deleted) {
                 if (alreadyHit)
-                    throw new InvalidBoardException();
+                    throw new InvalidBoardException("Conflicting numbers");
             }
         }
         /* now rowIt will be looping over the same rows as before: */
