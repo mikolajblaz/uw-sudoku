@@ -1,14 +1,12 @@
 package sudokudlx;
 
-import sudokudlx.InvalidBoardException;
-
 /**
  * Class representing sudoku board.
  *
  * CAUTION! Rows and columns are indexed from 0 to size-1.
  * Cells are filled with numbers from 1 to 9.
  */
-public class SudokuBoard {
+class SudokuBoard {
     protected final int size;
     protected int[][] board;
 
@@ -50,5 +48,17 @@ public class SudokuBoard {
             }
         }
         return result;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        for (int[] row : board) {
+            for (int num : row) {
+                result.append(num);
+            }
+            result.append("\n");
+        }
+        return result.toString();
     }
 }

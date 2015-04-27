@@ -35,7 +35,7 @@ class ExactCoverMatrixGenerator {
         return matrix;
     }
     /** get labels to the exact cover matrix */
-    public SudokuDLXRow[] getDLXRows() {
+    public SudokuDLXRow[] getDancingLinksLabels() {
         return DLXRows;
     }
 
