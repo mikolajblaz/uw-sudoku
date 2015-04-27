@@ -1,4 +1,4 @@
-package sudoku;
+package sudokudlx;
 
 import dancinglinks.DancingLinks;
 

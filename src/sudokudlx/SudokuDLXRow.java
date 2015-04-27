@@ -1,4 +1,4 @@
-package sudoku;
+package sudokudlx;
 
 /**
  * Class representing one row in a coincidence matrix corresponding to an
@@ -14,23 +14,23 @@ class SudokuDLXRow {
     protected int digit;        // 0-8 !
 
     protected boolean selected;  // whether the cell is already filled
-    protected boolean excluded;   // whether the row is conflicting with filled numbers
+    protected boolean deleted;   // whether the row is conflicting with filled numbers
 
     public SudokuDLXRow(int row, int col, int digit, boolean selected) {
         this.row = row;
         this.col = col;
         this.digit = digit;
         this.selected = selected;
-        this.excluded = selected;        // initially selected == excluded
+        this.deleted = selected;        // initially selected == deleted
     }
 
     public void select() {
         selected = true;
-        excluded = true;
+        deleted = true;
     }
 
     public void exclude() {
-        excluded = true;
+        deleted = true;
     }
 
 }
