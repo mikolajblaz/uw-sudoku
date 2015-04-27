@@ -1,9 +1,9 @@
-package sudokudlx;
+package dancinglinks;
 
-import dancinglinks.DancingLinks;
-
-public class Solver {
-
+/**
+ * Test package DancingLinks
+ */
+public class Tester {
     public static void main(String[] args) {
         int[][] data = {
                 {0, 1, 1, 1, 1},

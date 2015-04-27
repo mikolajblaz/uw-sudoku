@@ -8,7 +8,7 @@ package sudokudlx;
  *
  * CAUTION! unlike in SudokuBoard, digit is a number between 0 and 8 !
  */
-class SudokuDLXRow {
+public class SudokuDLXRow {
     protected int row;          // 0-8 !
     protected int col;          // 0-8 !
     protected int digit;        // 0-8 !
@@ -16,7 +16,7 @@ class SudokuDLXRow {
     protected boolean selected;  // whether the cell is already filled
     protected boolean deleted;   // whether the row is conflicting with filled numbers
 
-    public SudokuDLXRow(int row, int col, int digit, boolean selected) {
+    SudokuDLXRow(int row, int col, int digit, boolean selected) {
         this.row = row;
         this.col = col;
         this.digit = digit;
@@ -24,13 +24,26 @@ class SudokuDLXRow {
         this.deleted = selected;        // initially selected == deleted
     }
 
-    public void select() {
+    void select() {
         selected = true;
         deleted = true;
     }
 
-    public void exclude() {
+    void exclude() {
         deleted = true;
     }
 
+    public int getRow()   { return row; }
+    public int getCol()   { return col; }
+    public int getDigit() { return digit; }
+
+    @Override
+    public String toString() {
+        return "R" + String.valueOf(row) + "C" + String.valueOf(col) + "#" + String.valueOf(digit) +
+                "   sel: [" + selected + "], del: " + deleted + "]";
+    }
+
+    public String toShortString() {
+        return "R" + String.valueOf(row) + "C" + String.valueOf(col) + "#" + String.valueOf(digit);
+    }
 }

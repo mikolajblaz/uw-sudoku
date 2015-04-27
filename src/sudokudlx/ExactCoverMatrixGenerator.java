@@ -1,7 +1,5 @@
 package sudokudlx;
 
-import sudoku.SudokuBoard;
-
 import java.util.Arrays;
 
 /** Class used to generate an exact cover matrix given sudoku board. */
@@ -14,6 +12,11 @@ class ExactCoverMatrixGenerator {
     private int height;                 // height of 'matrix'
     private SudokuDLXRow[] DLXRows;     // row labels in exact cover matrix
 
+    public ExactCoverMatrixGenerator(int[][] board)
+            throws InvalidBoardException {
+        this(new SudokuBoard(board));
+    }
+
     public ExactCoverMatrixGenerator(SudokuBoard sudoku)
             throws InvalidBoardException {
         this.sudoku = sudoku.getBoard();
@@ -21,7 +24,7 @@ class ExactCoverMatrixGenerator {
         this.height = sudokuSize * sudokuSize * sudokuSize;
         this.width = sudokuSize * sudokuSize * constraints;
         this.DLXRows = new SudokuDLXRow[height];
-        this.matrix = new boolean[width][height];
+        this.matrix = new boolean[height][width];
 
         fillDLXRows();
         generateMatrix();
@@ -65,7 +68,7 @@ class ExactCoverMatrixGenerator {
         for (; oldRow < height; ++oldRow) {
             if (!DLXRows[oldRow].deleted) {      // else just ignore the row
                 DLXRows[newRow] = DLXRows[oldRow];
-                /* reassign adn truncate whole row: */
+                /* reassign and truncate whole row: */
                 matrix[newRow] = Arrays.copyOf(matrix[oldRow], newWidth);
                 ++newRow;
             }
@@ -86,10 +89,10 @@ class ExactCoverMatrixGenerator {
                 if (alreadyHit)
                     throw new InvalidBoardException("Conflicting numbers");
                 alreadyHit = true;
-            } else if (DLXRows[row].deleted) {
+            }/* else if (DLXRows[row].deleted) {    // TODO
                 if (alreadyHit)
                     throw new InvalidBoardException("Conflicting numbers");
-            }
+            }*/
         }
         /* now rowIt will be looping over the same rows as before: */
         if (alreadyHit) {   // exclude column and delete all rows with 1 in that column

@@ -98,4 +98,11 @@ class RowIterator {
         result = (sizeSqrt * (outer / sizeSqrt) + (i / sizeSqrt)) * size_2 +
                  (sizeSqrt * (outer % sizeSqrt) + (i % sizeSqrt)) * size + inner;
     }
+
+    @Override
+    public String toString() {
+        return '(' + String.valueOf(outer) + ',' + String.valueOf(inner) + ',' +
+                String.valueOf(iterNum) + ',' + String.valueOf(i) + ")  res:[" +
+                String.valueOf(result) + ']';
+    }
 }
