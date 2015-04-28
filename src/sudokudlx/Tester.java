@@ -44,8 +44,8 @@ public class Tester {
 
 
         } catch (InvalidBoardException | NoSolutionException e) {
-            e.printStackTrace();
-            System.err.println("ERROR in line:");
+            System.err.println("ERROR! " + e.getMessage());
+            System.err.println("Line:");
             System.err.println(sudokuLine);
             System.err.println();
             System.err.println();
