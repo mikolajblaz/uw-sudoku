@@ -1,4 +1,4 @@
-package sudokudlx;
+package sudokusolver;
 
 /**
  * Class representing sudoku board.
@@ -11,7 +11,7 @@ class SudokuBoard {
     protected int[][] board;
 
     public SudokuBoard(String str) throws InvalidBoardException {
-        this(boardFromLine(str));
+        this(boardFromString(str));
     }
 
     public SudokuBoard(int[][] board) {

@@ -1,4 +1,4 @@
-package sudokudlx;
+package sudokusolver;
 
 /** Exception thrown when sudoku can't be solved */
 public class NoSolutionException extends Exception {

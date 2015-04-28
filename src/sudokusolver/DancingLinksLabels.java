@@ -1,4 +1,4 @@
-package sudokudlx;
+package sudokusolver;
 
 /**
  * Class representing one row in a coincidence matrix corresponding to an

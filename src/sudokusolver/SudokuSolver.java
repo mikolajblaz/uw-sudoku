@@ -1,4 +1,4 @@
-package sudokudlx;
+package sudokusolver;
 
 import dancinglinks.DancingLinks;
 import dancinglinks.Solution;
@@ -7,11 +7,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 /** A class which allows to use 'sudokudlx' package with ease. */
-public class SudokuWrapper {
+public class SudokuSolver {
     protected SudokuBoard sudokuBoard;
     protected List<SudokuSolution> solutions = new LinkedList<>();
 
-    public SudokuWrapper(String sudokuStr) throws InvalidBoardException {
+    public SudokuSolver(String sudokuStr) throws InvalidBoardException {
         this.sudokuBoard = new SudokuBoard(sudokuStr);
     }
 

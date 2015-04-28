@@ -1,4 +1,4 @@
-package sudokudlx;
+package sudokusolver;
 
 import java.util.Arrays;
 

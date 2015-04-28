@@ -1,4 +1,4 @@
-package sudokudlx;
+package sudokusolver;
 
 /**
  * This class enables looping over rows while generating an exact cover matrix.

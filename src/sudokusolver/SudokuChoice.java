@@ -1,4 +1,4 @@
-package sudokudlx;
+package sudokusolver;
 
 /**
  * Class representing one choice: row, column, number
