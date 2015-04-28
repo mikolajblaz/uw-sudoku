@@ -8,7 +8,7 @@ package sudokudlx;
  *
  * CAUTION! unlike in SudokuBoard, number is between 0 and 8 !
  */
-class SudokuDLXRow {
+class DancingLinksLabels {
     protected int row;           // 0-8 !
     protected int col;           // 0-8 !
     protected int number;        // 0-8 !
@@ -16,7 +16,7 @@ class SudokuDLXRow {
     protected boolean selected;  // whether the cell is already filled
     protected boolean deleted;   // whether the row is conflicting with filled numbers
 
-    SudokuDLXRow(int row, int col, int number, boolean selected) {
+    DancingLinksLabels(int row, int col, int number, boolean selected) {
         this.row = row;
         this.col = col;
         this.number = number;

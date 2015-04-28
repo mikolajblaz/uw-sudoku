@@ -9,7 +9,7 @@ import java.util.List;
 public class SudokuSolution {
     private List<SudokuChoice> choices = new LinkedList<>();
 
-    public SudokuSolution(Solution raw_solution, SudokuDLXRow[] labels) {
+    public SudokuSolution(Solution raw_solution, DancingLinksLabels[] labels) {
         for (Integer i : raw_solution.getRows()) {
             choices.add(new SudokuChoice(labels[i]));
         }

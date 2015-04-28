@@ -10,7 +10,7 @@ class ExactCoverMatrixGenerator {
     private boolean[][] matrix;         // exact cover matrix
     private int width;                  // width of 'matrix'
     private int height;                 // height of 'matrix'
-    private SudokuDLXRow[] DLXRows;     // row labels in exact cover matrix
+    private DancingLinksLabels[] DLXRows;     // row labels in exact cover matrix
 
     public ExactCoverMatrixGenerator(int[][] board)
             throws InvalidBoardException {
@@ -23,7 +23,7 @@ class ExactCoverMatrixGenerator {
         this.sudokuSize = sudoku.getSize();
         this.height = sudokuSize * sudokuSize * sudokuSize;
         this.width = sudokuSize * sudokuSize * constraints;
-        this.DLXRows = new SudokuDLXRow[height];
+        this.DLXRows = new DancingLinksLabels[height];
         this.matrix = new boolean[height][width];
 
         fillDLXRows();
@@ -35,7 +35,7 @@ class ExactCoverMatrixGenerator {
         return matrix;
     }
     /** get labels to the exact cover matrix */
-    public SudokuDLXRow[] getDancingLinksLabels() {
+    public DancingLinksLabels[] getDancingLinksLabels() {
         return DLXRows;
     }
 
@@ -46,9 +46,9 @@ class ExactCoverMatrixGenerator {
             for (int col = 0; col < sudokuSize; ++col)
                 for (int digit = 0; digit < sudokuSize; ++digit)
                     if (sudoku[row][col] == digit + 1)   // different numeration
-                        DLXRows[i++] = new SudokuDLXRow(row, col, digit, true);
+                        DLXRows[i++] = new DancingLinksLabels(row, col, digit, true);
                     else
-                        DLXRows[i++] = new SudokuDLXRow(row, col, digit, false);
+                        DLXRows[i++] = new DancingLinksLabels(row, col, digit, false);
     }
 
     /** generates an exact cover matrix */
@@ -89,10 +89,7 @@ class ExactCoverMatrixGenerator {
                 if (alreadyHit)
                     throw new InvalidBoardException("Conflicting numbers");
                 alreadyHit = true;
-            }/* else if (DLXRows[row].deleted) {    // TODO
-                if (alreadyHit)
-                    throw new InvalidBoardException("Conflicting numbers");
-            }*/
+            }
         }
         /* now rowIt will be looping over the same rows as before: */
         if (alreadyHit) {   // exclude column and delete all rows with 1 in that column

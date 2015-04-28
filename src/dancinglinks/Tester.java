@@ -5,6 +5,11 @@ package dancinglinks;
  */
 public class Tester {
     public static void main(String[] args) {
+        manual();
+    }
+
+
+    public static void manual() {
         int[][] data = {
                 {0, 1, 1, 1, 1},
                 {0, 1, 0, 1, 0},

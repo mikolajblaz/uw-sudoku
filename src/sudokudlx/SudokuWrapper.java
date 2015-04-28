@@ -8,8 +8,8 @@ import java.util.List;
 
 /** A class which allows to use 'sudokudlx' package with ease. */
 public class SudokuWrapper {
-    private SudokuBoard sudokuBoard;
-    private List<SudokuSolution> solutions = new LinkedList<>();
+    protected SudokuBoard sudokuBoard;
+    protected List<SudokuSolution> solutions = new LinkedList<>();
 
     public SudokuWrapper(String sudokuStr) throws InvalidBoardException {
         this.sudokuBoard = new SudokuBoard(sudokuStr);
@@ -19,7 +19,7 @@ public class SudokuWrapper {
     public List<SudokuSolution> solve() throws InvalidBoardException {
         ExactCoverMatrixGenerator generator = new ExactCoverMatrixGenerator(sudokuBoard);
         boolean[][] matrix = generator.getExactCoverMatrix();
-        SudokuDLXRow[] labels = generator.getDancingLinksLabels();
+        DancingLinksLabels[] labels = generator.getDancingLinksLabels();
 
         DancingLinks dl = new DancingLinks(matrix);
         List<Solution> raw_solutions = dl.exactCover();
@@ -30,7 +30,6 @@ public class SudokuWrapper {
         }
         return solutions;
     }
-
 
     public int[][] getSolvedArray() throws NoSolutionException {
         if (solutions.isEmpty())
