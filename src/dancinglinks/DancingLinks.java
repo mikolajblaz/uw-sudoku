@@ -19,6 +19,10 @@ public class DancingLinks {
     private RowStack tempSolution = new RowStack();
     /** All solutions of the exact cover problem: */
     private List<Solution> solutions = new LinkedList<>();
+    /** Maximum number of solutions to give while finding an exact cover. */
+    int maxSolutions = 0;       // 0 means all solutions
+    /** Whether to continue an exact cover finding algorithm. */
+    boolean continueSearch = false;
 
     /** Feeds DancingLinks with an array of zeros and ones */
     public DancingLinks(boolean[][] array) {
@@ -33,9 +37,12 @@ public class DancingLinks {
      * Finds an exact cover for the given matrix. Firstly converts the
      * 'matrixZeroOne' to quaterly-linked list representation and then performs
      * "Dancing Links" algorithm by recursively calling 'step()'.
-     * Returns list of solutions to the exact cover problem.
+     * Returns list of solutions to the exact cover problem containing at most
+     * 'maxSolutions' solutions or all of them if maxSolutions equals to 0.
      */
-    public List<Solution> exactCover() {
+    public List<Solution> exactCover(int maxSolutions) {
+        this.maxSolutions = maxSolutions;
+        continueSearch = true;
         superHead = matrixZeroOne.toSparse();
         step();
         return solutions;
@@ -50,6 +57,8 @@ public class DancingLinks {
         column = choose_min_column();
         if (column == null) {               // success
             solutions.add(tempSolution.toSolution());
+            if (solutions.size() >= maxSolutions)
+                continueSearch = false;     // stop if too many solutions
         } else if (column.count > 0) {      // else solution doesn't exist
 
             column.remove();
@@ -60,7 +69,8 @@ public class DancingLinks {
                     col.head.remove();
                 }
 
-                step();
+                if (continueSearch)
+                    step();
 
                 row = tempSolution.pop();
                 column = row.head;

@@ -11,7 +11,7 @@ class SudokuBoard {
     protected int[][] board;
 
     public SudokuBoard(String str) throws InvalidBoardException {
-        this(boardFromString(str));
+        this(boardFromLine(str));
     }
 
     public SudokuBoard(int[][] board) {

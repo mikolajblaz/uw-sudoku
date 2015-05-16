@@ -17,12 +17,17 @@ public class SudokuSolver {
 
     /** Solves sudoku and returns all solutions. */
     public List<SudokuSolution> solve() throws InvalidBoardException {
+        return solve(0);
+    }
+
+    /** Solves sudoku and returns at most 'maxSolutions' solutions. */
+    public List<SudokuSolution> solve(int maxSolutions) throws InvalidBoardException {
         ExactCoverMatrixGenerator generator = new ExactCoverMatrixGenerator(sudokuBoard);
         boolean[][] matrix = generator.getExactCoverMatrix();
         DancingLinksLabels[] labels = generator.getDancingLinksLabels();
 
         DancingLinks dl = new DancingLinks(matrix);
-        List<Solution> raw_solutions = dl.exactCover();
+        List<Solution> raw_solutions = dl.exactCover(maxSolutions);
 
         /* Translate raw solutions to SudokuSoltions: */
         for (Solution raw_sol : raw_solutions) {
