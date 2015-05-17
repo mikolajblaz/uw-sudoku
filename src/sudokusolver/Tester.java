@@ -25,7 +25,7 @@ public class Tester {
 
     public static void solveSudoku(String sudokuLine) {
         try {
-            SudokuSolver wrapper = new SudokuSolver(sudokuLine);
+            SudokuSolverTester wrapper = new SudokuSolverTester(sudokuLine);
             wrapper.solve(2);       // max 2 solutions
             SudokuBoardTester oldBoard = new SudokuBoardTester(sudokuLine);
             SudokuBoardTester solvedBoard = wrapper.getSolvedSudoku();
@@ -83,7 +83,7 @@ public class Tester {
                 "000000040";
 
         try {
-            SudokuSolver wrapper = new SudokuSolver(sudoku3);
+            SudokuSolverTester wrapper = new SudokuSolverTester(sudoku3);
             List<SudokuSolution> solutions = wrapper.solve();
 
             System.out.println(solutions);
