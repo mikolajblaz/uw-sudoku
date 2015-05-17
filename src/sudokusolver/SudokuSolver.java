@@ -11,8 +11,12 @@ public class SudokuSolver {
     protected SudokuBoard sudokuBoard;
     protected List<SudokuSolution> solutions = new LinkedList<>();
 
-    public SudokuSolver(String sudokuStr) throws InvalidBoardException {
-        this.sudokuBoard = new SudokuBoard(sudokuStr);
+    public SudokuSolver(SudokuBoard sudokuBoard) {
+        this.sudokuBoard = sudokuBoard;
+    }
+
+    public SudokuSolver(int[][] board) {
+        this.sudokuBoard = new SudokuBoard(board);
     }
 
     /** Solves sudoku and returns all solutions. */
@@ -27,16 +31,16 @@ public class SudokuSolver {
         DancingLinksLabels[] labels = generator.getDancingLinksLabels();
 
         DancingLinks dl = new DancingLinks(matrix);
-        List<Solution> raw_solutions = dl.exactCover(maxSolutions);
+        List<Solution> rawSolutions = dl.exactCover(maxSolutions);
 
         /* Translate raw solutions to SudokuSoltions: */
-        for (Solution raw_sol : raw_solutions) {
-            solutions.add(new SudokuSolution(raw_sol, labels));
+        for (Solution rawSol : rawSolutions) {
+            solutions.add(new SudokuSolution(rawSol, labels));
         }
         return solutions;
     }
 
-    public int[][] getSolvedArray() throws NoSolutionException {
+    public int[][] getSolvedBoard() throws NoSolutionException {
         if (solutions.isEmpty())
             throw new NoSolutionException();
 
@@ -48,12 +52,8 @@ public class SudokuSolver {
         return board;
     }
 
-    public SudokuBoard getSolvedBoard() throws NoSolutionException {
-        getSolvedArray();
+    public SudokuBoard getSolvedSudoku() throws NoSolutionException {
+        getSolvedBoard();
         return sudokuBoard;
-    }
-
-    public String getSolvedString() throws NoSolutionException {
-        return getSolvedBoard().toString();
     }
 }
