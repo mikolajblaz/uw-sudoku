@@ -10,7 +10,8 @@ Klasy o widoczności publicznej:
 1. SudokuSolver
 Głowna klasa pakietu, konstruuje się ją przy pomocy tablicy int[][] lub obiektu
 klasy SudokuBoard.
-Posiada metodę 'solve()', która spełnia funkcje opisane powyżej.
+Posiada metodę 'solve()', która spełnia funkcje opisane powyżej. Przyjmuje ona
+argument 'maxSolutions', który ogranicza liczbę zwracanych rozwiązań.
 
 2. SudokuBoard
 Opakowanie tablicy int[][].
@@ -36,7 +37,7 @@ Typowe użycie pakietu to:
 
 int[][] board = {...}
 SudokuSolver solver = new SudokuSolver(board);
-List<SudokuSolution> solutions = solver.solve();
+List<SudokuSolution> solutions = solver.solve(1);
 
 ewentualnie później:
 SudokuBoard solved = solver.getSolvedSudoku();
