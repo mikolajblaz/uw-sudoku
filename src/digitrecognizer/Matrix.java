@@ -1,5 +1,7 @@
 package digitrecognizer;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Scanner;
 
@@ -15,6 +17,7 @@ public class Matrix {
         width = data[0].length;
     }
 
+    /** Reads a matrix from InputStream using Scanner. */
     public Matrix(InputStream inputStream) {
         Scanner in = new Scanner(inputStream);
         height = (new Double(in.nextDouble())).intValue();
@@ -25,8 +28,38 @@ public class Matrix {
                 data[i][j] = in.nextDouble();
     }
 
-    public double[][] getData() { return data; }
+    /** Reads a matrix from an open BufferedReader without closing it. */
+    public Matrix(BufferedReader reader)
+            throws InvalidFileFormatException, IOException {
+        String line;
+        String line2;
+        line = reader.readLine();
+        line2 = reader.readLine();
+        if (line == null || line2 == null) {
+            throw new InvalidFileFormatException();
+        } else {
+            height = Double.valueOf(line).intValue();
+            width = Double.valueOf(line2).intValue();
 
+            for (int i = 0; i < height; i++) {
+                line = reader.readLine();
+                if (line == null) {
+                    throw new InvalidFileFormatException();
+                } else {
+                    String[] numbers = line.split("\\s");
+                    for (int j = 0; j < width; j++) {
+                        data[i][j] = Double.valueOf(numbers[j]);
+                    }
+                }
+            }
+        }
+    }
+
+    public double[][] getData() { return data; }
+    public int getWidth() { return width; }
+    public int getHeight() { return height; }
+
+    /** Multiplies itself by matrix B. Returns A*B. */
     public Matrix multiply(Matrix B) {
         if (width != B.height) {
             return null;
