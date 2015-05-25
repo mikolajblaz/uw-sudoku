@@ -11,7 +11,6 @@ class Matrix {
     protected int width;
     protected int height;
 
-    public Matrix() {}
     public Matrix(double[][] data) {
         this.data = data;
         height = data.length;
@@ -67,21 +66,37 @@ class Matrix {
         } else {
             int sum;
             double C[][] = new double[height][B.width];
-            {
-                for (int i = 0; i < height; i++) {
-                    for (int j = 0; j < B.width; j++) {
-                        sum = 0;
-                        for (int k = 0; k < width; k++)
-                            sum += data[i][k] * B.data[k][j];
-                        C[i][j] = sum;
-                    }
+            for (int i = 0; i < height; i++) {
+                for (int j = 0; j < B.width; j++) {
+                    sum = 0;
+                    for (int k = 0; k < width; k++)
+                        sum += data[i][k] * B.data[k][j];
+                    C[i][j] = sum;
                 }
-
             }
             return new Matrix(C);
         }
     }
 
+    /** Multiplies itself by vector v. Returns vector A*v. */
+    public ColumnVector multiply(ColumnVector v) {
+        if (width != v.height) {
+            return null;
+        } else {
+            int sum;
+            double C[] = new double[height];
+            for (int i = 0; i < height; i++) {
+                sum = 0;
+                for (int k = 0; k < width; k++)
+                    sum += data[i][k] * v.data[k];
+                C[i] = sum;
+            }
+
+            return new ColumnVector(C);
+        }
+    }
+
+    /** Applies unary function f to all matrix elements. */
     public void applyFunction(Function f) {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
