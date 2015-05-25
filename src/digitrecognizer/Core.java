@@ -13,31 +13,47 @@ public class Core {
     protected Function activationFunction = new SigmoidFunction();
 
     /** Constructs neural network saved in a file 'file'. */
-    public Core(File file)
-            throws InvalidFileFormatException, IOException {
+    public Core(File file) throws InvalidFileFormatException, IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            loadMatrices(reader);
+        }
+    }
 
-            this.network = new Matrix[networkSize];
-            String firstLine = reader.readLine();
-            if (firstLine == null)
-                throw new InvalidFileFormatException();
-            networkSize = Double.valueOf(firstLine).intValue();
+    /** Constructs neural network from InputStream. */
+    public Core(InputStream stream) throws IOException, InvalidFileFormatException {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
+            loadMatrices(reader);
+        }
+    }
+
+    /** Constructs neural network from BufferedReader. */
+    public Core(BufferedReader reader) throws IOException, InvalidFileFormatException {
+        loadMatrices(reader);
+    }
+
+    /** Loads all matrices from the given BufferdReader. */
+    private void loadMatrices(BufferedReader reader)
+            throws IOException, InvalidFileFormatException {
+        this.network = new Matrix[networkSize];
+        String firstLine = reader.readLine();
+        if (firstLine == null)
+            throw new InvalidFileFormatException();
+        networkSize = Double.valueOf(firstLine).intValue();
 
             /* read matrices */
-            for (int i = 0; i < networkSize; i++) {
-                network[i] = new Matrix(reader);
-            }
+        for (int i = 0; i < networkSize; i++) {
+            network[i] = new Matrix(reader);
+        }
 
             /* check matrices dimensions */
-            for (int i = 0; i < networkSize; i++) {
-                if (network[0].width != network[1].height)
-                    throw new InvalidFileFormatException();
-            }
-
-            this.imageSize = (int) Math.sqrt(network[0].height);
-            if (imageSize * imageSize != network[0].height)
+        for (int i = 0; i < networkSize; i++) {
+            if (network[0].width != network[1].height)
                 throw new InvalidFileFormatException();
         }
+
+        this.imageSize = (int) Math.sqrt(network[0].height);
+        if (imageSize * imageSize != network[0].height)
+            throw new InvalidFileFormatException();
     }
 
     /**
