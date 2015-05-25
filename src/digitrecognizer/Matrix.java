@@ -3,6 +3,7 @@ package digitrecognizer;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /** Class representing matrices. */
@@ -22,6 +23,7 @@ class Matrix {
         Scanner in = new Scanner(inputStream);
         height = (new Double(in.nextDouble())).intValue();
         width = (new Double(in.nextDouble())).intValue();
+        data = new double[height][width];
 
         for (int i = 0 ; i < height; i++)
             for (int j = 0; j < width; j++)
@@ -40,6 +42,7 @@ class Matrix {
         } else {
             height = Double.valueOf(line).intValue();
             width = Double.valueOf(line2).intValue();
+            data = new double[height][width];
 
             for (int i = 0; i < height; i++) {
                 line = reader.readLine();
@@ -105,6 +108,7 @@ class Matrix {
         }
     }
 
+    @Override
     public String toString() {
         StringBuilder str = new StringBuilder();
         for (int i = 0 ; i < height; i++) {
@@ -114,5 +118,15 @@ class Matrix {
             str.append("\n");
         }
         return str.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Matrix)) {
+            return false;
+        } else {
+            Matrix m = (Matrix) o;
+            return Arrays.deepEquals(data, m.data);
+        }
     }
 }

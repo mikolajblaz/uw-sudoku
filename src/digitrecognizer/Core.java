@@ -34,25 +34,26 @@ public class Core {
     /** Loads all matrices from the given BufferdReader. */
     private void loadMatrices(BufferedReader reader)
             throws IOException, InvalidFileFormatException {
-        this.network = new Matrix[networkSize];
         String firstLine = reader.readLine();
         if (firstLine == null)
             throw new InvalidFileFormatException();
         networkSize = Double.valueOf(firstLine).intValue();
+        network = new Matrix[networkSize];
 
-            /* read matrices */
+        /* read matrices: */
         for (int i = 0; i < networkSize; i++) {
             network[i] = new Matrix(reader);
         }
 
-            /* check matrices dimensions */
-        for (int i = 0; i < networkSize; i++) {
-            if (network[0].width != network[1].height)
+        /* check matrices dimensions: */
+        for (int i = 0; i < networkSize - 1; i++) {
+            if (network[i].height + 1 != network[i + 1].width)
                 throw new InvalidFileFormatException();
         }
 
-        this.imageSize = (int) Math.sqrt(network[0].height);
-        if (imageSize * imageSize != network[0].height)
+        /* square number of pixels possible: */
+        this.imageSize = (int) Math.sqrt(network[0].width - 1);
+        if (imageSize * imageSize != network[0].width - 1)
             throw new InvalidFileFormatException();
     }
 
