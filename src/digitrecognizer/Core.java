@@ -10,6 +10,7 @@ public class Core {
     protected int imageSize;
     protected int networkSize;
     protected Matrix[] network;
+    protected Function g = new SigmoidFunction();
 
     public Core(File file, int imageSize)
             throws InvalidFileFormatException, IOException {
@@ -26,7 +27,7 @@ public class Core {
                 network[i] = new Matrix(reader);
             }
             /* check file correctness: */
-            if (network[0].height != imageSize * imageSize + 1)   // TODO + 1 ?
+            if (network[0].height != imageSize * imageSize)
                 throw new InvalidFileFormatException();
             /* check matrices dimensions */
             for (int i = 0; i < networkSize; i++) {

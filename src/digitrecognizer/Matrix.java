@@ -6,11 +6,12 @@ import java.io.InputStream;
 import java.util.Scanner;
 
 /** Class representing matrices. */
-public class Matrix {
+class Matrix {
     protected double[][] data;
     protected int width;
     protected int height;
 
+    public Matrix() {}
     public Matrix(double[][] data) {
         this.data = data;
         height = data.length;
@@ -78,6 +79,14 @@ public class Matrix {
 
             }
             return new Matrix(C);
+        }
+    }
+
+    public void applyFunction(Function f) {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                data[i][j] = f.apply((data[i][j]));
+            }
         }
     }
 
