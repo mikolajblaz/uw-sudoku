@@ -13,8 +13,9 @@ import static org.junit.Assert.*;
 public class CoreTest {
     private Core core;
 
-    private void testCoreConstructor() throws IOException, InvalidFileFormatException {
-        core = new Core(new File("../octave.txt"));
+    @Test
+    public void testCoreConstructor() throws IOException, InvalidFileFormatException {
+        core = new Core(new File("octave/network.txt"));
     }
 
     private void testOctaveCore(Core core) throws Exception {
@@ -37,8 +38,8 @@ public class CoreTest {
 
     @Test
     public void testFeedForward() throws Exception {
-        Matrix X = new Matrix(new FileInputStream(new File("../octave/data.txt")));
-        Matrix y = new Matrix(new FileInputStream(new File("../octave/results.txt")));
+        Matrix X = new Matrix(new FileInputStream(new File("octave/data.txt")));
+        Matrix y = new Matrix(new FileInputStream(new File("octave/results.txt")));
         int width = X.width;
         int height = X.height;
         assertTrue(width == 400 && height == 25);
