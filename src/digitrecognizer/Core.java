@@ -32,7 +32,7 @@ public class Core {
     }
 
     /** Loads all matrices from the given BufferdReader. */
-    private void loadMatrices(BufferedReader reader)
+    protected void loadMatrices(BufferedReader reader)
             throws IOException, InvalidFileFormatException {
         String firstLine = reader.readLine();
         if (firstLine == null)
@@ -89,8 +89,8 @@ public class Core {
      * Feeds forward input and returns the output of the network.
      * CAUTION! 'input' is modified!
      */
-    private ColumnVector feedForward(ColumnVector input) {
-        if (input.height != network[0].width) {
+    protected ColumnVector feedForward(ColumnVector input) {
+        if (input.height != network[0].width - 1) {
             return null;
         } else {
             for (int layer = 0; layer < networkSize; layer++) {
@@ -103,7 +103,7 @@ public class Core {
     }
 
     /** Unrolls 2D array to 1D array and checks image format. */
-    private double[] unrollInput(double[][] data) throws InvalidImageFormatException {
+    protected double[] unrollInput(double[][] data) throws InvalidImageFormatException {
         int width = data[0].length;
         if (width != imageSize)
             throw new InvalidImageFormatException();        // improper size
@@ -128,7 +128,7 @@ public class Core {
      *                  lower than threshold, this function returns -1
      * @return recognized digit or -1 if confidence is lower than threshold.
      */
-    private int chooseDigit(ColumnVector output, double threshold) {
+    protected int chooseDigit(ColumnVector output, double threshold) {
         double[] raw_output = output.data;
         int maxDigit = -1;
         double maxValue = threshold;
@@ -138,6 +138,9 @@ public class Core {
                 maxValue = raw_output[digit];
             }
         }
-        return maxDigit;
+        if (maxDigit == -1)
+            return -1;
+        else
+            return (maxDigit + 1) % 10;     // normalize output from 1-10 to 0-9
     }
 }

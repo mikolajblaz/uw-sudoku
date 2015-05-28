@@ -86,7 +86,7 @@ class Matrix {
         if (width != v.height) {
             return null;
         } else {
-            int sum;
+            double sum;
             double C[] = new double[height];
             for (int i = 0; i < height; i++) {
                 sum = 0;
