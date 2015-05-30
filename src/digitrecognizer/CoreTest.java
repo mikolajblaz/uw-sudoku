@@ -15,7 +15,7 @@ public class CoreTest {
 
     @Test
     public void testCoreConstructor() throws IOException, InvalidFileFormatException {
-        core = new Core(new File("octave/network.txt"));
+        core = new Core(new File("src/digitrecognizer/network.txt"));
     }
 
     private void testOctaveCore(Core core) throws Exception {
@@ -68,6 +68,43 @@ public class CoreTest {
                 failures++;
         }
         assertTrue(failures / height < max_failures_proc);
+
+    }
+
+    @Test
+    public void testRecognizeDigit() throws Exception {
+        Matrix X = new Matrix(new FileInputStream(new File("octave/data.txt")));
+        Matrix y = new Matrix(new FileInputStream(new File("octave/results.txt")));
+        int width = X.width;
+        int height = X.height;
+        assertTrue(width == 400 && height == 25);
+        assertTrue(y.width == 1 && y.height == height);
+        if (core == null)
+            testCoreConstructor();
+
+        double[][][] inputs = new double[height][20][20];
+        int[] outputs = new int[height];
+        int[] correct_outputs = new int[height];
+
+
+        for (int digit_case = 0; digit_case < height; digit_case++) {
+            for (int j = 0; j < width; j++)
+                inputs[digit_case][j / 20][j % 20] = X.data[digit_case][j];
+
+            outputs[digit_case] = core.recognizeDigit(inputs[digit_case]);
+            correct_outputs[digit_case] = (int) y.data[digit_case][0];
+            assertTrue(correct_outputs[digit_case] == y.data[digit_case][0] && correct_outputs[digit_case] > 0);
+            if (correct_outputs[digit_case] == 10)
+                correct_outputs[digit_case] = 0;
+        }
+
+        int failures = 0;
+        double max_failures_proc = 0.1;
+        for (int i = 0; i < height; i++) {
+            if (correct_outputs[i] != outputs[i])
+                failures++;
+        }
+        assertTrue((double) failures / height < max_failures_proc);
 
     }
 }

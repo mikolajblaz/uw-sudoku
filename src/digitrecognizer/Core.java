@@ -62,9 +62,15 @@ public class Core {
      * If network confidence is lower than 'threshold', returns -1 (unrecognized digit).
      * CAUTION! data must be an image saved in a format, where
      * data[0][0]       is an upper-left corner,
-     * data[0][size]    is an upper-right corner,
-     * data[size][0]    is a bottom-left corner,
+     * data[0][size]    is a bottom-left corner,
+     * data[size][0]    is an upper-right corner,
      * data[size][size] is bottom-right corner
+     *
+     * and numbers are from range [0,1]:
+     * 0.0 is a background color
+     * 1.0 is a foreground color
+     *
+     * (see "README.txt" file)
      */
     public int recognizeDigit(double[][] data, double threshold) throws InvalidImageFormatException {
         ColumnVector input = new ColumnVector(unrollInput(data));
@@ -77,9 +83,15 @@ public class Core {
      * Recognizes a digit given an array of pixel intensities between 0 and 1.
      * CAUTION! data must be an image saved in a format, where
      * data[0][0]       is an upper-left corner,
-     * data[0][size]    is an upper-right corner,
-     * data[size][0]    is a bottom-left corner,
+     * data[0][size]    is a bottom-left corner,
+     * data[size][0]    is an upper-right corner,
      * data[size][size] is bottom-right corner
+     *
+     * and numbers are from range [0,1]:
+     * 0.0 is a background color
+     * 1.0 is a foreground color
+     *
+     * (see "README.txt" file)
      */
     public int recognizeDigit(double[][] data) throws InvalidImageFormatException {
         return recognizeDigit(data, 0);
@@ -102,19 +114,19 @@ public class Core {
         }
     }
 
-    /** Unrolls 2D array to 1D array and checks image format. */
+    /** Unrolls 2D column-major array to 1D array and checks image format. */
     protected double[] unrollInput(double[][] data) throws InvalidImageFormatException {
-        int width = data[0].length;
-        if (width != imageSize)
+        int height = data[0].length;
+        if (height != imageSize || data.length != height)
             throw new InvalidImageFormatException();        // improper size
 
-        double[] result = new double[data.length * width];
+        double[] result = new double[height * height];
         int plain = 0;
-        for (int i = 0; i < data.length; i++) {
-            if (data[i].length != width)
+        for (int col = 0; col < data.length; col++) {
+            if (data[col].length != height)
                 throw new InvalidImageFormatException();    // irregular image
-            for (int j = 0; j < width; j++) {
-                result[plain++] = data[i][j];
+            for (int row = 0; row < height; row++) {
+                result[plain++] = data[col][row];
             }
         }
         return result;
